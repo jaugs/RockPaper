@@ -16,24 +16,166 @@
   </head>
   <body>
 
-    <h1>Hellow World</h1> 
-    <h2>hello again</h2>
+    <div class = heading>
+    <h1>Rock, Paper, Scissors</h1> 
+    <h2>Try to beat the computer in a best of 10 round set:</h2>
+    </div>
+    <div class = results>
+    <div id="total">Round Number:
+      <div class="totalNumber"> </div>
+    </div>
+      <div id="match">
+      <div class="matchNumber"> </div>
+      </div>
+  </div>
+
+    <div class = buttonBox>
+    <button id="rock"> I guess Rock! </button>
+    <button id="paper"> I guess Paper! </button> 
+    <button id="scissors"> I guess Scissors! </button>  
+  </div>
+
+    <div id="winner">The Result is:
+      <div class="playResult"> </div>
+    </div>
+
+    <div class = scoreboard>
+      <div id="tie">Number of Ties:
+        <div class="tieNumber"> </div>
+      </div>
+      <div id="wins">Number of Wins:
+        <div class="winNumber"> </div>
+      </div>
+      <div id="losses">Number of Losses:
+        <div class="lossNumber"> </div>
+      </div>
+    </div>
+
+ <div class = footer>
+  By J.AUGS, 2022
+ </div>
+
 <script>
-
-
-function playerPlay () {
-  let answer = (prompt("Please enter your selection:"));
-  let upperCaseAnswer = answer.toUpperCase();
-  return upperCaseAnswer
-//console.log(upperCaseAnswer);
-}
+const resultBox = document.querySelector('.playResult');
+const tieBox = document.querySelector('.tieNumber');
+const winsBox = document.querySelector('.winNumber');
+const loseBox = document.querySelector('.lossNumber');
+const totalBox = document.querySelector('.totalNumber');
+const matchBox = document.querySelector('.matchNumber');
+let tieCount = 0;
+let winCount = 0;
+let lossCount = 0;
+let totalCount = 0;
 
 function computerPlay () {
     let selections = ["ROCK", "PAPER", "SCISSORS"]
     let PCguess = selections[Math.floor(Math.random() * selections.length)];
-    console.log(PCguess);
     return PCguess;
 }
+
+const rockBtn = document.querySelector('#rock');
+
+rockBtn.addEventListener('click', () => {
+  let result = roundPlay("ROCK", computerPlay());
+  if (result.includes("tie")) {
+      tieCount += 1;
+      tieBox.textContent = tieCount;
+      totalCount += 1;
+      totalBox.textContent = totalCount;
+      resultBox.textContent= result;
+  } else if (result.includes("beats")) {
+     winCount += 1;
+     winsBox.textContent = winCount;
+     resultBox.textContent= result;
+     totalCount += 1;
+      totalBox.textContent = totalCount;
+  } else if (result.includes("loses")) {
+      lossCount += 1;
+      loseBox.textContent = lossCount;
+      resultBox.textContent= result;
+      totalCount += 1;
+      totalBox.textContent = totalCount;
+  }
+  matchPlay();
+});
+
+const paperBtn = document.querySelector('#paper');
+paperBtn.addEventListener('click', () => {
+  let result = roundPlay("PAPER", computerPlay());
+  if (result.includes("tie")) {
+        tieCount += 1;
+        tieBox.textContent = tieCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  } else if (result.includes("beats")) {
+        winCount += 1;
+        winsBox.textContent = winCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  } else if (result.includes("loses")) {
+        lossCount += 1;
+        loseBox.textContent = lossCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  }
+  matchPlay();
+});
+
+const scissorsBtn = document.querySelector('#scissors');
+scissorsBtn.addEventListener('click', () => {
+  let result = roundPlay("SCISSORS", computerPlay());
+  if (result.includes("tie")) {
+        tieCount += 1;
+        tieBox.textContent = tieCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  } else if (result.includes("beats")) {
+        winCount += 1;
+        winsBox.textContent = winCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  } else if (result.includes("loses")) {
+        lossCount += 1;
+        loseBox.textContent = lossCount;
+        resultBox.textContent= result;
+        totalCount += 1;
+      totalBox.textContent = totalCount;
+  }
+  matchPlay();
+});
+
+
+function matchPlay() {
+if (totalCount === 10) {
+  if (winCount < lossCount) {
+    matchBox.textContent = "You lose this time";
+    gameReset ();
+  } else if (winCount > lossCount) {
+    matchBox.textContent = "Congratulations! You win the match!";
+    gameReset ();
+  } else  {
+    matchBox.textContent = "Tie game, try again next time!";
+    gameReset ();
+}
+}
+}
+
+function gameReset () {
+ winCount = 0;
+ winsBox.textContent = winCount;
+ lossCount = 0;
+ loseBox.textContent = lossCount;
+ tieCount = 0;
+ tieBox.textContent = tieCount;
+ totalCount = 0;
+ totalBox.textContent = totalCount;
+}
+
 
 function roundPlay (playerselect, pcselect) {
   if (playerselect === pcselect) {
@@ -49,7 +191,7 @@ function roundPlay (playerselect, pcselect) {
       let result = "Player's Paper loses to Computer's Scissors!";
       return result;
   } else if (playerselect === "PAPER" && pcselect === "ROCK") {
-     let result = "Player's Paper beats Computer's ROCK!";
+     let result = "Player's Paper beats Computer's Rock!";
        return result;
   } else if (playerselect === "SCISSORS" && pcselect === "ROCK") {
       let result = "Player's Scissors loses to Computer's Rock!";
@@ -63,52 +205,8 @@ function roundPlay (playerselect, pcselect) {
   }   
 }
 
-//let result = roundPlay(playerPlay(), computerPlay());
-//console.log(result);
 
-function game () {
-  let tieCount = 0;
-  let playerWins = 0;
-  let computerWins = 0;
-  for (let i = 0; i < 5; i++) {
-    let firstgame = roundPlay(playerPlay(), computerPlay());
-      console.log(firstgame);
-    if (firstgame.includes("tie")) {
-      tieCount = tieCount + 1;
-    } else if (firstgame.includes("beats")) {
-        playerWins = playerWins + 1;
-    } else if (firstgame.includes("loses")) {
-        computerWins = computerWins + 1;
-    } else console.log("error");
-  }
-  console.log("number of ties is: ", tieCount);
-  console.log("number of player wins is: ", playerWins);
-  console.log("number of computer wins is: ",computerWins);
-}
 
-game();
-
-function reverseString (word) {
-    let arr = word.split();
-    console.log(arr);
-    let arrRev = arr.reverse();
-    console.log(arrRev);
-    return reverse = arrRev.toString();
-
-};
-
-reverseString("34");
-// for (let i =1; i <= answer; i++) {
-//     if (i % 3 === 0 && i % 5 === 0) {
-//         console.log("fizzbuzz");
-//     } else if (i % 3 === 0) {
-//         console.log("fizz");
-//      } else if (i % 5 === 0 ) {
-//          console.log("buzz");
-//      } else {
-//             console.log(i);
-//         }
-//     }
 
 </script>
 
